@@ -1,6 +1,6 @@
 import random
-
-from backpack import Backpack
+from models import Backpack, Item
+from genetic_functions import create_start_generation
 
 print("Задайте количество различных типов предметов")
 types_count = int(input())
@@ -14,18 +14,18 @@ case = input()
 backpack = Backpack(types_count)
 
 if case == "2":
-    volumes = []
-    costs = []
+    items = []
     for i in range(types_count):
-        volumes.append(random.randint(1, 20))
-        costs.append(random.randint(1, 20))
-    backpack.volumes = volumes
-    backpack.costs = costs
-    print("Веса предметов:", backpack.volumes)
-    print("Стоимости предметов:", backpack.costs)
+        item = Item(i, random.randint(1, 20), random.randint(1, 20))
+        items.append(item)
+    backpack.items = items
+    print("Список предметов:", backpack.items)
     print("Максимальная вместимость:", backpack.max_volume)
     print("Количество лучших особей из предыдущего поколения:", backpack.alpha)
     print("Точность функции приспособленности:", backpack.epsilon)
     print("Максимальное количество поколений:", backpack.max_generations)
+    print("Максимальное количество особей в поколении:", backpack.max_individuals)
     print("Вероятность кроссовера: ", backpack.crossover_probability, "%", sep='')
     print("Вероятность мутации: ", backpack.mutation_probability, "%", sep='')
+
+print(create_start_generation(backpack))
