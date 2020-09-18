@@ -1,6 +1,6 @@
 import random
 from models import Backpack, Item
-from genetic_functions import create_start_generation
+from genetic_functions import create_start_generation, create_new_generation
 
 print("Задайте количество различных типов предметов")
 types_count = int(input())
@@ -28,4 +28,9 @@ if case == "2":
     print("Вероятность кроссовера: ", backpack.crossover_probability, "%", sep='')
     print("Вероятность мутации: ", backpack.mutation_probability, "%", sep='')
 
-print(create_start_generation(backpack))
+generation = create_start_generation(backpack)
+print(generation[0])
+
+for _ in range(backpack.max_generations):
+    generation = create_new_generation(backpack, generation)
+    print(generation[0])
