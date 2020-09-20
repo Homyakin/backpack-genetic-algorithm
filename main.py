@@ -1,7 +1,17 @@
 import random
+from os import system, name
 
 from models import BackpackFactory, Item
 
+
+def clear():
+    if name == 'nt':
+        system('cls')
+    else:
+        system('clear')
+
+
+clear()
 
 types_count = int(input("Задайте количество различных типов предметов: "))
 
@@ -10,6 +20,16 @@ print("1. Ручной")
 print("2. Случайный")
 
 case = input()
+
+
+def input_items(n_items):
+    items = []
+    for i in range(n_items):
+        cost = int(input(f"Введите стоимость вещи {i}: "))
+        volume = int(input(f"Введите объем вещи {i}: "))
+        items.append(Item(i, cost, volume))
+    return items
+
 
 if case == "1":
     max_volume = int(input("Введите объем рюкзака: "))
@@ -21,7 +41,7 @@ if case == "1":
     mutation_probability = float(input("Введите вероятность мутации: "))
     epsilon = float(input("Введите точность функции приспособленности: "))
 
-    items = [Item(i, random.randint(1, 20), random.randint(1, 20)) for i in range(types_count)]
+    items = input_items(types_count)
     backpack = BackpackFactory(items, 
                                max_volume, 
                                alpha, 
@@ -39,7 +59,7 @@ elif case == "2":
 else:
     exit(1)
 
-print("Список предметов: ", end='')
+print("Список предметов: ")
 for item in backpack.items:
     print(item)
 print()
@@ -49,7 +69,7 @@ print("Количество лучших особей из предыдущег�
 print("Точность функции приспособленности: ", backpack.epsilon)
 print("Максимальное количество поколений: ", backpack.max_generations)
 print("Максимальное количество особей в поколении: ", backpack.max_specimen)
-print("Вероятность кроссовера: ", backpack.crossover_probability, sep='')
-print("Вероятность мутации: ", backpack.mutation_probability, sep='')
+print("Вероятность кроссовера: ", backpack.crossover_probability)
+print("Вероятность мутации: ", backpack.mutation_probability)
 
 backpack.evolve()

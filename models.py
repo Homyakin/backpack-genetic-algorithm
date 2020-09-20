@@ -24,12 +24,12 @@ class BackpackFactory:
                  alpha=2, 
                  max_generations=5000, 
                  max_specimen=100, 
-                 crossover_type='random',
+                 crossover_type="random",
                  crossover_probability=.85, 
                  mutation_probability=.5,
                  epsilon=.01):
 
-        assert crossover_type in ('random', 'avg'), 'Invalid crossover type'
+        assert crossover_type in ("random", "avg"), "Invalid crossover type"
 
         self.items = items  # List of Item
         self.types_count = len(items)
@@ -37,7 +37,7 @@ class BackpackFactory:
         self.alpha = alpha
         self.max_generations = max_generations
         self.max_specimen = max_specimen
-        if crossover_type == 'rand':
+        if crossover_type == "rand":
             self.crossover = self.rand_crossover
         else:
             self.crossover = self.avg_crossover
@@ -98,7 +98,6 @@ class BackpackFactory:
             backpack = Backpack(self.items, crossover_counts)
             if backpack.volume <= self.max_volume:
                 return backpack
-            print('here')
         return parent_1 if parent_1.cost > parent_2.cost else parent_2
 
     def create_new_generation(self, generation):
@@ -130,23 +129,31 @@ class BackpackFactory:
         """Запускает процесс эволюции."""
 
         generation = self.create_start_generation()
-        print('Поколение 0')
+        print("Поколение 0")
         print(generation)
         max_cost = generation.cost
 
         for i in range(1, self.max_generations+1):
             new_generation = self.create_new_generation(generation)
+            new_cost = new_generation.cost
+
             if i % 10 == 0:
                 print(f"Приспособленность поколения {i}: {generation.cost:.4f}")
+
             if abs(new_generation.cost - max_cost) < self.epsilon:
                 print(f"Поколение {i} -- выход")
                 break
+
+            if new_cost > max_cost:
+                max_cost = new_cost
 
             generation = new_generation
         print()
 
         print(f"Поколение {i}: ")
         print(generation)
+
+        print(f"Максимальное значение приспособленности: {max_cost:.4f}")
 
 
 class Generation:
@@ -169,9 +176,9 @@ class Generation:
         return iter(self.backpacks)
 
     def __repr__(self):
-        objs = '\n'.join(backpack.__repr__() for backpack in self)
+        objs = "\n".join(backpack.__repr__() for backpack in self)
         cost = self.cost
-        return f'''Объекты: {objs}\nПриспособленность поколения: {cost}'''
+        return f'''Объекты: {objs}\nПриспособленность поколения: {cost}\n'''
 
     
 class Backpack:
