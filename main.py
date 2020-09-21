@@ -13,13 +13,18 @@ def clear():
 
 clear()
 
-types_count = int(input("Задайте количество различных типов предметов: "))
-
 print("Выберите способ задания начальных условий:")
 print("1. Ручной")
 print("2. Случайный")
+print("3. Заданный")
 
 case = input()
+
+items = [Item(0, 12, 7), Item(1, 2, 3), Item(2, 41, 20)]
+types_count = len(items)
+
+if case != "3":
+    types_count = int(input("Задайте количество различных типов предметов: "))
 
 
 def input_items(n_items):
@@ -54,6 +59,8 @@ if case == "1":
 
 elif case == "2":
     items = [Item(i, random.randint(1, 20), random.randint(1, 20)) for i in range(types_count)]
+    backpack = BackpackFactory(items)
+elif case == "3":
     backpack = BackpackFactory(items)
 
 else:
