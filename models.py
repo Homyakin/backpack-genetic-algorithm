@@ -24,10 +24,10 @@ class BackpackFactory:
                  alpha=2, 
                  max_generations=5000, 
                  max_specimen=100, 
-                 crossover_type="random",
+                 crossover_type="avg",
                  crossover_probability=.85, 
-                 mutation_probability=.5,
-                 epsilon=.01):
+                 mutation_probability=.1,
+                 epsilon=.001):
 
         assert crossover_type in ("random", "avg"), "Invalid crossover type"
 
@@ -140,7 +140,7 @@ class BackpackFactory:
             if i % 10 == 0:
                 print(f"Приспособленность поколения {i}: {generation.cost:.4f}")
 
-            if abs(new_generation.cost - max_cost) < self.epsilon:
+            if abs(new_generation.cost - generation.cost) < self.epsilon:
                 print(f"Поколение {i} -- выход")
                 break
 

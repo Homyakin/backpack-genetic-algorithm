@@ -16,25 +16,24 @@ clear()
 print("Выберите способ задания начальных условий:")
 print("1. Ручной")
 print("2. Случайный")
-print("3. Заданный")
+print("3. Тест кейс 1")
+print("4. Тест кейс 2")
+
 
 case = input()
-
-items = [Item(0, 12, 7), Item(1, 2, 3), Item(2, 41, 20)] # ответ: 1ый тип - 2. 2ый тип - 1. 3ий тип - 2. стоимость - 108
-types_count = len(items)
-
-if case != "3":
-    types_count = int(input("Задайте количество различных типов предметов: "))
 
 
 def input_items(n_items):
     items = []
     for i in range(n_items):
-        cost = int(input(f"Введите стоимость вещи {i}: "))
         volume = int(input(f"Введите объем вещи {i}: "))
-        items.append(Item(i, cost, volume))
+        cost = int(input(f"Введите стоимость вещи {i}: "))
+        items.append(Item(i, volume, cost))
     return items
 
+
+if case in ("1", "2"):
+    types_count = int(input("Задайте количество различных типов предметов: "))
 
 if case == "1":
     max_volume = int(input("Введите объем рюкзака: "))
@@ -61,8 +60,32 @@ elif case == "2":
     items = [Item(i, random.randint(1, 20), random.randint(1, 20)) for i in range(types_count)]
     backpack = BackpackFactory(items)
 elif case == "3":
-    backpack = BackpackFactory(items)
+    print("Объем рюкзака: 58",
+          "Оптимальное решение:",
+          "\t1 - 2шт, 2 - 1шт, 3 - 2шт.",
+          "Запуск алгоритма:",
+          sep="\n",
+          end="\n")
 
+    items = [Item(0, 7, 12),
+             Item(1, 3, 2),
+             Item(2, 20, 41)]
+    backpack = BackpackFactory(items,
+                               max_volume=58)
+
+elif case == "4":
+    print("Объем рюкзака: 45",
+          "Оптимальное решение:",
+          "\t1 - 0шт, 2 - 0шт, 3 - 3шт.",
+          "Запуск алгоритма:",
+          sep="\n",
+          end="\n")
+
+    items = [Item(0, 12, 40),
+             Item(1, 20, 60),
+             Item(2, 15, 50)]
+    backpack = BackpackFactory(items,
+                               max_volume=45)
 else:
     exit(1)
 
