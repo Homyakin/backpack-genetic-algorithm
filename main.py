@@ -20,7 +20,7 @@ print("3. Заданный")
 
 case = input()
 
-items = [Item(0, 12, 7), Item(1, 2, 3), Item(2, 41, 20)]
+items = [Item(0, 12, 7), Item(1, 2, 3), Item(2, 41, 20)] # ответ: 1ый тип - 2. 2ый тип - 1. 3ий тип - 2. стоимость - 108
 types_count = len(items)
 
 if case != "3":
