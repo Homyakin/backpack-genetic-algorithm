@@ -154,6 +154,7 @@ class BackpackFactory:
         print(generation)
 
         print(f"Максимальное значение приспособленности: {max_cost:.4f}")
+        print(f"Лучшая особь: {generation.backpacks[0]}")
 
 
 class Generation:

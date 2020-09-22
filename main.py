@@ -18,7 +18,7 @@ print("1. Ручной")
 print("2. Случайный")
 print("3. Тест кейс 1")
 print("4. Тест кейс 2")
-
+print("5. Тест кейс 3")
 
 case = input()
 
@@ -86,6 +86,22 @@ elif case == "4":
              Item(2, 15, 50)]
     backpack = BackpackFactory(items,
                                max_volume=45)
+
+elif case == "5":
+    print("Объем рюкзака: 10",
+          "Оптимальное решение:",
+          "\t1 - 2шт, 2 - 0шт, 3 - 1шт, 4 - 0шт",
+          "Запуск алгоритма:",
+          sep="\n",
+          end="\n")
+
+    items = [Item(0, 4, 28),
+             Item(1, 3, 20),
+             Item(2, 2, 13),
+             Item(3, 1, 6)]
+    backpack = BackpackFactory(items,
+                               max_volume=10)
+
 else:
     exit(1)
 
