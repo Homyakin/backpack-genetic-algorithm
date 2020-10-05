@@ -216,3 +216,6 @@ for item in estimator.items:
 print()
 
 estimator.evolve()
+
+if not mode:
+    estimator.get_info()

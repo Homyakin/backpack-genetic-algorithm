@@ -40,10 +40,17 @@ class BackpackFactoryParallelLauncher:
         self.migration_proba = migration_proba
         self.n_migrations = n_migrations
         self.epsilon = epsilon
+        self.init_populations()
+        self.get_info()
+
+    def get_info(self):
+        for i, population in enumerate(self.populations):
+            print(f"Параметры популяции {i+1}:")
+            population.print_hyperparams()
 
     def generate_random_params(self):
         max_specimen = random.randint(25, 1000)
-        alpha = random.randint(0, max_specimen // 2)
+        alpha = random.randint(0, max_specimen // 10)
         crossover_type = "avg" if random.randint(0, 1) == 0 else "rand"
         crossover_probability = 1 - random.random() / 2
         mutation_probability = random.random() / 4
@@ -87,18 +94,18 @@ class BackpackFactoryParallelLauncher:
                         backpack_number)
 
     def evolve(self):
-        self.init_populations()
         def func(x): return x.evolve(max_generations=self.migration_delay)
         avg_fitness = 0
         for i in range(self.n_migrations):
             list(map(func, self.populations))
             self.migrate()
             print(
-                f"Миграция {i+1}, прошло поколений: {(i+1) * self.migration_delay}")
+                f"Миграция {i+1}")
             new_avg_fitness = sum(population.cur_generation.cost
                                   for population in self.populations) / self.n_populations
             print(
                 f"Среднее значение функции приспособленности: {new_avg_fitness}")
+            print("Первая популяция:")
             self.populations[0].get_info()
             if abs(new_avg_fitness - avg_fitness) < self.epsilon:
                 break
@@ -145,6 +152,7 @@ class BackpackFactory:
         self.alpha = alpha
         self.max_generations = max_generations
         self.max_specimen = max_specimen
+        self.crossover_type = crossover_type
         if crossover_type == "rand":
             self.crossover = self.rand_crossover
         else:
@@ -155,6 +163,7 @@ class BackpackFactory:
 
         self.cur_generation = None
         self.epochs_evolved = 0
+        self.print_hyperparams()
 
     def create_rand_backpack(self):
         """Создает случайную допустимую особь."""
@@ -261,7 +270,7 @@ class BackpackFactory:
         print(
             f"Приспособленность текущего поколения {self.cur_generation.cost:.4f}")
         print(
-            f"Лучшая особь: {sorted(self.cur_generation, key=lambda x: x.cost)[0]}\n")
+            f"Лучшая особь: {sorted(self.cur_generation, key=lambda x: x.cost, reverse=True)[0]}\n")
 
     def evolve(self, max_generations=None, verbose=False):
         """Запускает процесс эволюции."""
@@ -299,6 +308,14 @@ class BackpackFactory:
             self.get_info()
             print(f"Максимальное значение приспособленности: {max_cost:.4f}")
         return generation
+
+    def print_hyperparams(self):
+        print(f"aplha = {self.alpha}")
+        print(f"max_generations = {self.max_generations}")
+        print(f"max_specimen = {self.max_specimen}")
+        print(f"crossover_type = {self.crossover_type}")
+        print(f"crossover_probability = {self.crossover_probability:.4f}")
+        print(f"mutation_probability = {self.mutation_probability:.4f}\n")
 
 
 class Generation:
