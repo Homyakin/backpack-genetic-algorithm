@@ -206,8 +206,7 @@ class BackpackFactory:
     def rand_crossover(self, parent_1, parent_2):
         """Проводит случайный кроссовер (случайный выбор частей родителей)."""
 
-        for _ in range(10):  # TODO: чекнуть кол-во попыток
-
+        for _ in range(10): 
             crossover_counts = [random.choice([par1_arg, par2_arg])
                                 for par1_arg, par2_arg in zip(parent_1.item_counts,
                                                               parent_2.item_counts)]
@@ -219,7 +218,7 @@ class BackpackFactory:
 
     def avg_crossover(self, parent_1, parent_2):
         """Проводит avg кроссовер (Среднее частей родителей)."""
-        for _ in range(10):  # TODO: чекнуть кол-во попыток
+        for _ in range(10):
             crossover_counts = [
                 (par1_arg + par2_arg) // 2 for par1_arg,
                 par2_arg in zip(
